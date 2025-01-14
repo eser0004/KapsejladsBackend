@@ -1,11 +1,11 @@
 package com.example.kapsejladsbackend.service;
+import com.example.kapsejladsbackend.model.BaadType;
 import com.example.kapsejladsbackend.model.Kapsejlads;
 import com.example.kapsejladsbackend.model.Sejlbaad;
 import com.example.kapsejladsbackend.repository.KapsejladsRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class KapsejladsService {
 
         for (LocalDate dato = startDato; !dato.isAfter(slutDato); dato = dato.plusDays(1)) {
             if (dato.getDayOfWeek().getValue() == 3) { // Onsdag
-                for (Sejlbaad.BaadType baadType : Sejlbaad.BaadType.values()) {
+                for (BaadType baadType : BaadType.values()) { // Brug den fælles BaadType
                     Kapsejlads kapsejlads = new Kapsejlads(dato, baadType, 10); // Antal startende fx 10
                     kapsejladsRepository.save(kapsejlads);
                     kapsejladser.add(kapsejlads);
@@ -38,5 +38,9 @@ public class KapsejladsService {
 
     public List<Kapsejlads> findAll() {
         return kapsejladsRepository.findAll();
+    }
+    // Ny save-metode
+    public Kapsejlads save(Kapsejlads kapsejlads) {
+        return kapsejladsRepository.save(kapsejlads);
     }
 }

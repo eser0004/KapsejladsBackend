@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface KapsejladsRepository extends JpaRepository<Kapsejlads, Long> {
-    List<Kapsejlads> findByBaadType(Sejlbaad.BaadType baadType);
 }

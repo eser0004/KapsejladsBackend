@@ -13,25 +13,26 @@ public class Kapsejlads {
     private LocalDate dato;
 
     @Enumerated(EnumType.STRING)
-    private Sejlbaad.BaadType baadType;
+    private BaadType baadType;
 
     private int antalStartendeBaade;
 
     @Column(nullable = false)
-    private int pointVinder; // Point til førstepladsen
+    private int pointVinder;
 
     @Column(nullable = false)
-    private int pointIkkeFuldfort; // Point til bådene, der ikke fuldførte
+    private int pointIkkeFuldfort;
 
     public Kapsejlads() {}
 
-    public Kapsejlads(LocalDate dato, Sejlbaad.BaadType baadType, int antalStartendeBaade) {
+    public Kapsejlads(LocalDate dato, BaadType baadType, int antalStartendeBaade) {
         this.dato = dato;
         this.baadType = baadType;
         this.antalStartendeBaade = antalStartendeBaade;
         this.pointVinder = 1;
         this.pointIkkeFuldfort = antalStartendeBaade + 1;
     }
+
 
     public Long getId() {
         return id;
@@ -49,11 +50,11 @@ public class Kapsejlads {
         this.dato = dato;
     }
 
-    public Sejlbaad.BaadType getBaadType() {
+    public BaadType getBaadType() {
         return baadType;
     }
 
-    public void setBaadType(Sejlbaad.BaadType baadType) {
+    public void setBaadType(BaadType baadType) {
         this.baadType = baadType;
     }
 
@@ -80,6 +81,4 @@ public class Kapsejlads {
     public void setPointIkkeFuldfort(int pointIkkeFuldfort) {
         this.pointIkkeFuldfort = pointIkkeFuldfort;
     }
-
-    // Getters og Setters
 }

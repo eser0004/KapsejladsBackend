@@ -8,10 +8,19 @@ public class Sejlbaad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String navn;
 
     @Enumerated(EnumType.STRING)
     private BaadType baadType;
+
+    public Sejlbaad() {}
+
+    public Sejlbaad(String navn, BaadType baadType) {
+        this.navn = navn;
+        this.baadType = baadType;
+    }
+
 
     public Long getId() {
         return id;
@@ -36,12 +45,4 @@ public class Sejlbaad {
     public void setBaadType(BaadType baadType) {
         this.baadType = baadType;
     }
-
-    public enum BaadType {
-        MINDRE_END_25FOD,
-        MELLEM_25_40FOD,
-        LAANGERE_END_40FOD
-    }
-
-
 }
