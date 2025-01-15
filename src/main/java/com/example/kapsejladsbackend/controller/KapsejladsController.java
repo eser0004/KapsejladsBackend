@@ -38,4 +38,17 @@ public class KapsejladsController {
         return kapsejladsRepository.save(kapsejlads);
     }
 
+    @PostMapping("/generate")
+    public String generateKapsejladserForSeason() {
+        kapsejladsService.generateKapsejladserForSeason();
+        return "Kapsejladser for hele sæsonen er oprettet!";
+    }
+    @DeleteMapping("/deleteAll")
+    public String deleteAllKapsejladser() {
+        kapsejladsService.deleteAllKapsejladser();
+        return "Alle kapsejladser og deres deltagere er slettet!";
+    }
+
+
+
 }
