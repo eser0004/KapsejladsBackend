@@ -4,6 +4,9 @@ import com.example.kapsejladsbackend.model.Kapsejlads;
 import com.example.kapsejladsbackend.model.Sejlbaad;
 import com.example.kapsejladsbackend.repository.DeltagerRepository;
 import com.example.kapsejladsbackend.repository.KapsejladsRepository;
+import com.example.kapsejladsbackend.repository.SejlbaadRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +16,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class KapsejladsService {
 
     private final KapsejladsRepository kapsejladsRepository;
-   @Autowired
-   DeltagerRepository deltagerRepository;
+    private final DeltagerRepository deltagerRepository;
+    private final SejlbaadRepository sejlbaadRepository;
 
-    public KapsejladsService(KapsejladsRepository kapsejladsRepository) {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public KapsejladsService(KapsejladsRepository kapsejladsRepository,
+                             DeltagerRepository deltagerRepository,
+                             SejlbaadRepository sejlbaadRepository) {
         this.kapsejladsRepository = kapsejladsRepository;
+        this.deltagerRepository = deltagerRepository;
+        this.sejlbaadRepository = sejlbaadRepository;
     }
 
     public List<Kapsejlads> generateKapsejladser() {
@@ -76,5 +87,21 @@ public class KapsejladsService {
                 }
             }
         }
+    }
+    @Transactional
+    public void deleteAllData() {
+        // Slet alle deltagere
+        deltagerRepository.deleteAll();
+
+        // Slet alle kapsejladser
+        kapsejladsRepository.deleteAll();
+
+        // Slet alle sejlbåde
+        sejlbaadRepository.deleteAll();
+
+        // Nulstil auto-increment for tabellerne
+        entityManager.createNativeQuery("ALTER TABLE deltager AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE kapsejlads AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE sejlbaad AUTO_INCREMENT = 1").executeUpdate();
     }
 }

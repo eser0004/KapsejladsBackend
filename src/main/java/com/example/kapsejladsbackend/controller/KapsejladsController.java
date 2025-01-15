@@ -49,6 +49,12 @@ public class KapsejladsController {
         return "Alle kapsejladser og deres deltagere er slettet!";
     }
 
+    @DeleteMapping("/deleteAllData")
+    public String deleteAllData() {
+        kapsejladsService.deleteAllData();
+        return "Alle data (kapsejladser, sejlbåde og deltagere) er slettet, og ID'er er nulstillet!";
+    }
+
 
 
 }

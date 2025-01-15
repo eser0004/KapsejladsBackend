@@ -6,9 +6,10 @@ import com.example.kapsejladsbackend.model.Sejlbaad;
 import com.example.kapsejladsbackend.repository.DeltagerRepository;
 import com.example.kapsejladsbackend.repository.KapsejladsRepository;
 import com.example.kapsejladsbackend.repository.SejlbaadRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DeltagerService {
@@ -62,4 +63,29 @@ public class DeltagerService {
         }
         deltagerRepository.deleteById(id);
     }
+    public List<Map<String, Object>> getMostActiveSejlbaade() {
+        List<Object[]> results = deltagerRepository.findMostActiveSejlbaade();
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("navn", result[0]);
+            item.put("antalDeltagelser", result[1]);
+            response.add(item);
+        }
+
+        return response;
+    }
+    @Transactional
+    public void generateDeltagere(int antal, List<Kapsejlads> kapsejladser, List<Sejlbaad> sejlbaade) {
+        Random random = new Random();
+        for (int i = 1; i <= antal; i++) {
+            Kapsejlads kapsejlads = kapsejladser.get(random.nextInt(kapsejladser.size()));
+            Sejlbaad sejlbaad = sejlbaade.get(random.nextInt(sejlbaade.size()));
+            int point = random.nextInt(10) + 1; // Generer tilfældige point mellem 1 og 10
+            Deltager deltager = new Deltager(kapsejlads, sejlbaad, point);
+            deltagerRepository.save(deltager);
+        }
+    }
+
 }

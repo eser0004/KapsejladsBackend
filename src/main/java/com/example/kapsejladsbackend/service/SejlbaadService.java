@@ -1,7 +1,9 @@
 package com.example.kapsejladsbackend.service;
 
+import com.example.kapsejladsbackend.model.BaadType;
 import com.example.kapsejladsbackend.model.Sejlbaad;
 import com.example.kapsejladsbackend.repository.SejlbaadRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +36,15 @@ public class SejlbaadService {
                 })
                 .orElseThrow(() -> new RuntimeException("Sejlbåd ikke fundet"));
     }
+    @Transactional
+    public void generateSejlbaade(int antal) {
+        for (int i = 1; i <= antal; i++) {
+            String navn = "Sejlbåd " + i;
+            BaadType baadType = BaadType.values()[i % 3]; // Vælg bådtype cyklisk
+            Sejlbaad sejlbaad = new Sejlbaad(navn, baadType);
+            sejlbaadRepository.save(sejlbaad);
+        }
+    }
+
 
 }

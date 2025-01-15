@@ -34,5 +34,11 @@ public class SejlbaadController {
     public Sejlbaad update(@PathVariable Long id, @RequestBody Sejlbaad updatedSejlbaad) {
         return sejlbaadService.update(id, updatedSejlbaad);
     }
+    @PostMapping("/generate")
+    public String generateSejlbaade(@RequestParam int antal) {
+        sejlbaadService.generateSejlbaade(antal);
+        return antal + " sejlbåde er genereret!";
+    }
+
 
 }
